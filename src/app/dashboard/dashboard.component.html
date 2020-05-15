@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 leftHeader">
+                <mat-card>
+                    <mat-label>{{headerLabel}}</mat-label>
+                    <button mat-raised-button color="primary" class="float-right">Create New</button>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <a mat-button routerLink="details">GRN Listing</a>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 rightHeader">
+                <mat-card>
+                    <mat-form-field style="width:90%">
+                        <input matInput (keyup)="applyFilter($event)">
+                    </mat-form-field>
+                    <mat-icon svgIcon="search" class="float-right"></mat-icon>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table mat-table [dataSource]="vendorList" multiTemplateDataRows class="mat-elevation-z8">
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+
+            <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-bottom: 1%;">
+                    <mat-card>
+                        <mat-label style="padding-right: 2%;">GRN Header</mat-label>
+                        <button mat-raised-button>Save</button>
+                        <button mat-raised-button color="primary">New</button>
+                        <div class="row" style="padding:2%">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="row">
+                                    <!--toDO - check feasibility of looping the structure-->
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">GRN ID</span> -->
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field class="full-width">
+                                        <input matInput placeholder="GRN ID" value='{{element["GRN#"]}}' disabled>
+                                    </mat-form-field>
+
+                                    <!-- </span> -->
+                                </div>
+                                <div class="row">
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">GRN Date</span> -->
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field>
+                                        <mat-label>GRN Date</mat-label>
+                                        <input matInput [matDatepicker]="GRNDate">
+                                        <mat-datepicker-toggle matSuffix [for]="GRNDate"></mat-datepicker-toggle>
+                                        <mat-datepicker #GRNDate></mat-datepicker>
+                                    </mat-form-field>
+                                    <!-- {{element["Created"]}} -->
+                                    <!-- </span> -->
+                                </div>
+                                <div class="row">
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">PO Number</span> -->
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field>
+                                        <mat-label>PO Number</mat-label>
+                                        <mat-select [(value)]="element['PO Number'][0]">
+                                            <mat-option *ngFor="let ele of element['PO Number']" value="{{ele}}">{{ele}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- </span> -->
+                                </div>
+                                <div class="row">
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">Delivery Date</span>
+                                <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field>
+                                        <mat-label>Delivery Date</mat-label>
+                                        <input matInput [matDatepicker]="DeliveryDate">
+                                        <mat-datepicker-toggle matSuffix [for]="DeliveryDate"></mat-datepicker-toggle>
+                                        <mat-datepicker #DeliveryDate></mat-datepicker>
+                                    </mat-form-field>
+                                    <!-- {{element["Delivery Date"]}} -->
+                                    <!-- </span> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="row">
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">Vendor</span>
+                                <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field class="full-width">
+                                        <input matInput placeholder="Vendor" value='{{element["Vendor"]}}' disabled>
+                                    </mat-form-field>
+                                    <!-- </span> -->
+                                </div>
+                                <div class="row">
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">Vendor ID</span>
+                                <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field class="full-width">
+                                        <input matInput placeholder="Vendor ID" value='{{element["VendorID"]}}'
+                                            disabled>
+                                    </mat-form-field>
+                                    <!-- </span> -->
+                                </div>
+                                <div class="row">
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">Arrived Date</span>
+                                <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field>
+                                        <mat-label>Arrived Date</mat-label>
+                                        <input matInput [matDatepicker]="ArrivedDate">
+                                        <mat-datepicker-toggle matSuffix [for]="ArrivedDate"></mat-datepicker-toggle>
+                                        <mat-datepicker #ArrivedDate></mat-datepicker>
+                                    </mat-form-field>
+                                    <!-- {{element["Arrived Date"]}} -->
+                                    <!-- </span> -->
+                                </div>
+                                <div class="row">
+                                    <!-- <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">Remarks</span>
+                                <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> -->
+                                    <mat-form-field class="full-width">
+                                        <input matInput placeholder="Remarks" value='{{element["Remarks"]}}'>
+                                    </mat-form-field>
+                                    <!-- </span> -->
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="element-row"
+        [class.expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+</table>

@@ -1,0 +1,257 @@
+<div class="row" style="margin-right: 0px;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <mat-card>
+            <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <mat-label>GRN Details</mat-label>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 ">
+                    <mat-label class="createdLabel">Created</mat-label>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
+
+<mat-tab-group #detailsTab [(selectedIndex)]="selectedIndex">
+    <mat-tab label="Data Source" disabled></mat-tab>
+    <mat-tab label="Recieving">
+
+        <table mat-table [dataSource]="baseDataRecieving" class="mat-elevation-z8" style="width: 100%;">
+
+            <ng-container matColumnDef="">
+                <th mat-header-cell *matHeaderCellDef> "" </th>
+                <td mat-cell *matCellDef="">
+                    <mat-radio-group aria-labelledby="radio-group-label" class="radio-group">
+                        <mat-radio-button class="radio-button">
+                            <!-- ToFix -->
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="{{column}}" *ngFor="let column of displayColumnRecieving">
+                <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayColumnRecieving"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayColumnRecieving;"></tr>
+        </table>
+
+        <mat-divider></mat-divider>
+
+        <div class=row style="margin-right: 0px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 4%; padding-top: 2%;">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="PO Item" value='{{selectedRecievingDisplay["Item#"]}}' disabled>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="PO Qty" value='{{selectedRecievingDisplay["PO Qty"]}}' disabled>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="PO Pending Qty" value='{{selectedRecievingDisplay["Pending Qty"]}}'
+                        disabled>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="PO Unit (UOM)" value='{{selectedRecievingDisplay["Unit"]}}' disabled>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Material Ident Code" value='{{selectedRecievingDisplay["IDENT"]}}'
+                        disabled>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Material Description"
+                        value='{{selectedRecievingDisplay["Description 1"]}}' disabled>
+                </mat-form-field>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-top: 2%;">
+                <mat-table [dataSource]="inputRecieving">
+                    <ng-container matColumnDef="Manufacturer Lot#">
+                        <mat-header-cell *matHeaderCellDef> Manufacturer Lot# </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Manufacturer Lot#"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Lot Quantity">
+                        <mat-header-cell *matHeaderCellDef> Lot Quantity </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Lot Quantity"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Unit">
+                        <mat-header-cell *matHeaderCellDef> Unit </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <mat-select [(value)]="row.selectedUnit">
+                                    <mat-option *ngFor="let ele of row['Unit']" value="{{ele}}"> {{ele}} </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-cell>
+                        <mat-icon svgIcon="control_point" class="float-right"></mat-icon>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="inputRecievingHeaders"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: inputRecievingHeaders;"></mat-row>
+                </mat-table>
+            </div>
+        </div>
+        <div class="row" style="margin-right: 0px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 2%;">
+                <button mat-button color="primary" class="float-right">Save</button>
+                <button mat-button class="float-right">Cancel</button>
+            </div>
+        </div>
+
+
+    </mat-tab>
+    <mat-tab label="Inspection">
+        <div class="row" style="margin-right: 0px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="QC Completion Target" value='{{selectedRecievingDisplay["QC Completion Target"]}}' disabled>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Inspection Completed Date</mat-label>
+                    <input matInput [matDatepicker]="InspectionCompletedDate">
+                    <mat-datepicker-toggle matSuffix [for]="InspectionCompletedDate"></mat-datepicker-toggle>
+                    <mat-datepicker #InspectionCompletedDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Inspected By" value=''>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="QC Note" value=''>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <table mat-table [dataSource]="baseDataRecieving" class="mat-elevation-z8" style="width: 100%;">
+
+            <ng-container matColumnDef="">
+                <th mat-header-cell *matHeaderCellDef> "" </th>
+                <td mat-cell *matCellDef="">
+                    <mat-radio-group aria-labelledby="radio-group-label" class="radio-group">
+                        <mat-radio-button class="radio-button">
+                            <!-- ToFix -->
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="{{column}}" *ngFor="let column of displayColumnInspection">
+                <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayColumnInspection"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayColumnInspection;"></tr>
+        </table>
+        <mat-divider></mat-divider>
+
+        <div class="row" style="margin-right: 0px;">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-top: 2%;">
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding-top: 2%;">
+                <mat-table [dataSource]="inputRecieving">
+                    <ng-container matColumnDef="Manufacturer Lot#">
+                        <mat-header-cell *matHeaderCellDef> Manufacturer Lot# </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Manufacturer Lot#"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Lot Quantity">
+                        <mat-header-cell *matHeaderCellDef> Lot Quantity </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Lot Quantity"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Unit">
+                        <mat-header-cell *matHeaderCellDef> Unit </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <mat-select [(value)]="row.selectedUnit">
+                                    <mat-option *ngFor="let ele of row['Unit']" value="{{ele}}"> {{ele}} </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Good Qty">
+                        <mat-header-cell *matHeaderCellDef> Good Qty </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Good Qty"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Off-Spec">
+                        <mat-header-cell *matHeaderCellDef> Off-Spec </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Off-Spec"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Shortage">
+                        <mat-header-cell *matHeaderCellDef> Shortage </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Shortage"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Damage">
+                        <mat-header-cell *matHeaderCellDef> Damage </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-form-field>
+                                <input matInput value='{{row["Damage"]}}'>
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="inputInspectionHeaders"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: inputInspectionHeaders;"></mat-row>
+                </mat-table>
+            </div>
+
+        </div>
+
+        <div class="row" style="margin-right: 0px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 2%;">
+                <button mat-button color="primary" class="float-right">Reject</button>
+                <button mat-button class="float-right">Approve</button>
+            </div>
+        </div>
+
+    </mat-tab>
+    <mat-tab label="Documentation" disabled></mat-tab>
+    <mat-tab label="Storage" disabled></mat-tab>
+    <mat-tab label="Invoicing" disabled> </mat-tab>
+    <mat-tab label="Notes on GRN" disabled></mat-tab>
+</mat-tab-group>
