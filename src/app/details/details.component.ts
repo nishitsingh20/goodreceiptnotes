@@ -82,7 +82,9 @@ export class DetailsComponent implements OnInit {
     "Off-Spec":0,
     "Shortage":0,
     "Damage":0,
-    "Good Qty":1500
+    "Good Qty":1500,
+    "addBtn":false,
+    "addBtnDesc":""
   },
   {
     "Manufacturer Lot#":"1921520152",
@@ -92,9 +94,11 @@ export class DetailsComponent implements OnInit {
     "Off-Spec":0,
     "Shortage":0,
     "Damage":0,
-    "Good Qty":500
+    "Good Qty":500,
+    "addBtn":true,
+    "addBtnDesc":""
   }];
-  inputRecievingHeaders = ["Manufacturer Lot#", 'Lot Quantity', 'Unit'];
+  inputRecievingHeaders = ["Manufacturer Lot#", 'Lot Quantity', 'Unit',"addBtnDesc"];
   inputInspectionHeaders = ["Manufacturer Lot#",'Lot Quantity','Unit',"Good Qty","Off-Spec","Shortage","Damage"];
 
   constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer ) {
@@ -107,6 +111,10 @@ export class DetailsComponent implements OnInit {
 
     this.selectedRecievingDisplay = this.baseDataRecieving[0];
     this.selectedInspectionDisplay = this.baseDataRecieving[0];
+    
+  }
+
+  addNextItems(){
     
   }
 

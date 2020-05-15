@@ -97,8 +97,15 @@
                                 </mat-select>
                             </mat-form-field>
                         </mat-cell>
-                        <mat-icon svgIcon="control_point" class="float-right"></mat-icon>
                     </ng-container>
+
+                    <ng-container matColumnDef="addBtnDesc">
+                        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-icon svgIcon="control_point" class="float-right" *ngIf="row.addBtn == true" (click)="addNextItems()"></mat-icon>
+                        </mat-cell>
+                    </ng-container>
+                    
 
                     <mat-header-row *matHeaderRowDef="inputRecievingHeaders"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: inputRecievingHeaders;"></mat-row>
